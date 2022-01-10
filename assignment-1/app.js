@@ -1,6 +1,6 @@
 const request = require('request');
 const csv = require('csv');
-var obj = csv()
+var obj = csv();
  
 const options = {
   url: 'https://api.github.com/search/repositories?q=is:public',
