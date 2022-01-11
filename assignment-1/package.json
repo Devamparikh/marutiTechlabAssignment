@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "csv": "^6.0.5",
+    "csv-stringify": "^6.0.5",
+    "csv-writer": "^1.6.0",
     "postman-request": "^2.88.1-postman.31",
     "request": "^2.88.2"
   }

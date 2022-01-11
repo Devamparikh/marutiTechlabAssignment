@@ -1,6 +1,9 @@
+// required modules used in assignment
 const request = require('request');
-const csv = require('csv');
-var obj = csv();
+// const csv = require('csv');
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+// var fs = require('fs');
+// var stringify = require('csv-stringify');
  
 const options = {
   url: 'https://api.github.com/search/repositories?q=is:public',
@@ -9,6 +12,19 @@ const options = {
   },
   json: true
 };
+
+const csvWriter = createCsvWriter({
+  path: './dataInfo.csv',
+  header: [
+      {id: 'name', title: 'NAME'},
+      {id: 'lang', title: 'LANGUAGE'},
+      {id: 'html_url', title: 'Html Url'},
+      {id: 'watchers_count', title: 'Watchers Count'},
+      {id: 'stargazers_count stargazers_count', title: 'Stargazers Count'},
+      {id: 'forks_count', title: 'Forks Count'}
+
+    ]
+});
  
 function callback(error, response, body) {
   if (!error && response.statusCode == 200) {
@@ -26,13 +42,18 @@ function callback(error, response, body) {
         console.log('Forks Count: ' + item.forks_count);
 
         if (item.stargazers_count > 500) {
-          data.push('|')
-          data.push(item.name)
-          data.push(item.description)
-          data.push(item.html_url)
-          data.push(item.watchers_count)
-          data.push(item.stargazers_count)
-          data.push(item.forks_count)
+
+          // data.push('|')
+          // data.push(item.name)
+          // data.push(item.description)
+          // data.push(item.html_url)
+          // data.push(item.watchers_count)
+          // data.push(item.stargazers_count)
+          // data.push(item.forks_count)
+
+          data2dArray = {name: item.name,lang: item.language, description: item.description, html_url: item.html_url, watchers_count: item.watchers_count, stargazers_count: item.stargazers_count, forks_count: item.forks_count}
+          data.push(data2dArray)
+          
         }else{
           console.log('')
         }
@@ -41,9 +62,17 @@ function callback(error, response, body) {
       }
       
     });
+
+
     console.log(data)
     if (data.length > 0) {
-      obj.from.array(data).to.path('./dataInfo.csv');
+
+      csvWriter.writeRecords(data)       // returns a promise
+    .then(() => {
+        console.log('...Done');
+    });
+
+      // obj.from.array(data).to.path('./dataInfo.csv');
     }else{
       console.log('not stored.')
     }
