@@ -4,7 +4,7 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
 // creating options variable as object to pass url to request function
 const options = {
-  url: 'https://api.github.com/search/repositories?q=is:public',
+  url: 'https://api.github.com/search/repositories?q=is:public%20language:Python%20forks:%3E=200',
   //specification of user agent required for accessing github api
   headers: {
     'User-Agent': 'request'
@@ -21,7 +21,7 @@ const csvWriter = createCsvWriter({
       {id: 'lang', title: 'LANGUAGE'},
       {id: 'html_url', title: 'Html Url'},
       {id: 'watchers_count', title: 'Watchers Count'},
-      {id: 'stargazers_count stargazers_count', title: 'Stargazers Count'},
+      {id: 'stargazers_count', title: 'Stargazers Count'},
       {id: 'forks_count', title: 'Forks Count'}
     ]
 });
